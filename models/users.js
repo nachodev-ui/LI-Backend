@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             type: Sequelize.STRING,
             required: true,
             allowNull: false,
-            len: [6, 20]
+            len: [3, 20]
         },
         correo: {
             type: Sequelize.STRING,
