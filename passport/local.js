@@ -1,26 +1,21 @@
 const LocalStrategy = require("passport-local").Strategy,
- { _findByUsername } = require("../controllers/users"),
+  { _findByEmail } = require("../controllers/users"),
   bcrypt = require("bcrypt");
 
 module.exports = new LocalStrategy(
-  { session: false },
-  async (username, password, fecha, done) => {
+  { usernameField: "correo", session: false },
+  async (correo, password, done) => {
     try {
-      const user = await _findByUsername(username);
+      const user = await _findByEmail(correo);
       if (!user) return done(null, false, "Usuario y/o contraseña incorrectos");
 
       const match = bcrypt.compareSync(password, user.password);
       if (!match)
         return done(null, false, "Usuario y/o contraseña incorrectos");
 
-      return done(null, {
-        username: user.username,
-        id: user.id,
-        created_at: user.created_at,
-        updated_at: user.updated_at,
-      });
+      return done(null, { id: user.id });
     } catch (e) {
-      done(e);
+      return done(e);
     }
   }
 );

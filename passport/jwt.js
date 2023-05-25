@@ -11,10 +11,10 @@ module.exports = new JWTStrategy(
   async (jwt_payload, done) => {
     try {
       const user = await _findByUsername(jwt_payload.username);
-      if (!user) return done(null, false, "No autorizado");
+      if (!user) return done(null, false, { message: "Usuario no autorizado" });
       return done(null, {
         id: user.id,
-        username: user.username,
+        correo: user.correo,
       });
     } catch (e) {
         done(e);
