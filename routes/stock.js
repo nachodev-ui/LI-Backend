@@ -3,7 +3,7 @@ const router = express.Router()
 const actualizarStockVenta = require('../functions/procedures')
 
 router.post('/stock', async (req, res) => {
-  console.log('POST /stock request body:', req.body) // Agregar registro aquí
+  console.log('POST /stock request body:', req.body)
   const { libroId, cantidadVendida } = req.body
 
   // Validar los datos recibidos
@@ -18,7 +18,7 @@ router.post('/stock', async (req, res) => {
 
   try {
     await actualizarStockVenta(libroId, cantidadVendida)
-    console.log('Stock actualizado para libroId:', libroId) // Agregar registro aquí
+    console.log('Stock actualizado para libroId:', libroId)
     res.json({ message: 'Stock actualizado' })
   } catch (error) {
     console.error('Error al actualizar el stock:', error)
