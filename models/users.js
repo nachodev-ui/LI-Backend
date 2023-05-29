@@ -2,12 +2,17 @@ const Sequelize = require('sequelize-oracle')
 
 module.exports = (sequelize) => {
   const User = sequelize.define(
-    'users',
+    'user',
     {
       id: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true,
+      },
+      tipo_usuario: {
+        type: Sequelize.STRING,
+        required: true,
+        allowNull: false,
       },
       username: {
         type: Sequelize.STRING,
@@ -26,25 +31,29 @@ module.exports = (sequelize) => {
         allowNull: false,
         len: [5, 20],
       },
-      id_user_type: {
-        type: Sequelize.INTEGER,
-        required: true,
-        allowNull: false,
+      telefono: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      direccion: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      ciudad: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      imagen: {
+        type: Sequelize.STRING,
+        allowNull: true,
       },
     },
     {
       underscored: true,
       paranoid: true,
-      tableName: 'users',
+      tableName: 'user',
     }
   )
-
-  User.associate = (models) => {
-    User.belongsTo(models.user_type, {
-      foreignKey: 'id_user_type',
-      as: 'userType',
-    })
-  }
 
   return User
 }
