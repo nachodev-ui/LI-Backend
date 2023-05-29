@@ -10,7 +10,7 @@ const port = process.env.PORT || 5000,
   JWTStrategy = require('./passport/jwt'),
   morgan = require('morgan'),
   transbankRoutes = require('./routes/transbank')
-  stock = require('./routes/stock')
+stock = require('./routes/stock')
 
 app.use(cors())
 app.use(morgan('dev'))
@@ -25,13 +25,10 @@ app.use(passport.initialize())
 app.use('/auth', require('./routes/auth'))
 app.use('/api/users', require('./routes/users'))
 app.use('/api/books', require('./routes/books'))
-app.use('/api/technicians', require('./routes/technician'))
 app.use('/api/requests', require('./routes/request'))
-app.use('/api/createType', require('./routes/user_type'))
-app.use('cart', require('./routes/cart'))
+app.use('/api/emailConfirmation', require('./routes/emailConfirmation'))
 app.use('/', transbankRoutes)
 app.use('/', stock)
-
 
 app.listen(port, () => {
   console.log(`Servidor corriendo en puerto ${port}`)
