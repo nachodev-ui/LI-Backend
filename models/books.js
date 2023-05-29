@@ -1,8 +1,8 @@
-const Sequelize = require("sequelize-oracle");
+const Sequelize = require('sequelize-oracle')
 
 module.exports = (sequelize) => {
   const Book = sequelize.define(
-    "book",
+    'book',
     {
       id: {
         type: Sequelize.INTEGER,
@@ -74,9 +74,9 @@ module.exports = (sequelize) => {
     {
       underscored: true,
       paranoid: true,
-      tableName: "books",
+      tableName: 'book',
     }
-  );
+  )
 
-  return Book;
-};
+  return Book
+}
