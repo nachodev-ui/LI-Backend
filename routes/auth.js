@@ -12,11 +12,26 @@ router.post('/signin', async (req, res, next) => {
       if (err) return res.status(500).json(err)
       if (!user) return res.status(400).json(info)
 
-      const token = jwt.sign(user, process.env.SECRET_KEY, { expiresIn: '1h' })
+      const userData = {
+        id: user.id,
+        correo: user.correo,
+        username: user.username,
+        tipo_usuario: user.tipo_usuario,
+      }
+
+      console.log(userData)
+
+      const token = jwt.sign(userData, process.env.SECRET_KEY, {
+        expiresIn: '1h',
+      })
+
       return res.status(200).json({
-        token,
-        expiresIn: 3600,
-        user,
+        status: 'success',
+        message: 'Usuario autenticado exitosamente',
+        data: {
+          user: userData,
+          token,
+        },
       })
     }
   )(req, res, next)
