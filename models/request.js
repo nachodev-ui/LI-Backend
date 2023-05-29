@@ -1,8 +1,8 @@
-const Sequelize = require("sequelize-oracle");
+const Sequelize = require('sequelize-oracle')
 
 module.exports = (sequelize) => {
   const Maintenance = sequelize.define(
-    "maintenance",
+    'maintenance',
     {
       id: {
         type: Sequelize.INTEGER,
@@ -12,13 +12,7 @@ module.exports = (sequelize) => {
       fecha_solicitud: {
         type: Sequelize.DATE,
         allowNull: false,
-        get() {
-          const rawValue = this.getDataValue("fecha_solicitud");
-          if (rawValue) {
-            return rawValue.toISOString().slice(11, 16); // Obtiene solo la parte de hora y minutos (HH:mm)
-          }
-          return null;
-        },
+        required: true,
       },
       comentarios: {
         type: Sequelize.STRING,
@@ -39,20 +33,20 @@ module.exports = (sequelize) => {
         type: Sequelize.STRING,
         required: true,
         allowNull: false,
-      }
+      },
     },
     {
       underscored: true,
       paranoid: true,
-      tableName: "maintenance",
+      tableName: 'maintenance',
     }
-  );
+  )
 
   Maintenance.associate = (models) => {
-    Maintenance.belongsTo(models.users, {
-      as: "user",
-    });
-  };
+    Maintenance.belongsTo(models.user, {
+      as: 'user',
+    })
+  }
 
-  return Maintenance;
-};
+  return Maintenance
+}
