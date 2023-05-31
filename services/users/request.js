@@ -55,6 +55,37 @@ async function create(maintenance) {
   return request
 }
 
+async function findMaintenance() {
+  return await db.maintenance.findAll({
+    attributes: [
+      'id',
+      'correo',
+      'comentarios',
+      'fecha_solicitud',
+      'id_user',
+      'estado',
+    ],
+  })
+}
+
+async function updateRequest(id, fieldsToUpdate) {
+  try {
+    const maintenance = await db.maintenance.findById(id)
+
+    if (!maintenance) {
+      throw new Error('Mantencion Inexistente')
+    }
+
+    await maintenance.update(fieldsToUpdate)
+
+    return maintenance
+  } catch (error) {
+    throw new Error('Error la Mantencion no se actualizo: ' + error.message)
+  }
+}
+
 module.exports = {
   create,
+  findMaintenance,
+  updateRequest,
 }
