@@ -8,9 +8,7 @@ async function updateUser(id) {
       },
     })
 
-    if (!user) {
-      throw new Error(`No se encontró el usuario con id ${id}`)
-    }
+    if (!user) throw new Error(`No se encontró el usuario con id ${id}`)
 
     await user.update()
 
