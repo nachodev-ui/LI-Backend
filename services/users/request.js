@@ -68,6 +68,22 @@ async function findMaintenance() {
   })
 }
 
+async function findMaintenanceByUserId(id) {
+  return await db.maintenance.findAll({
+    where: {
+      id_user: id,
+    },
+    attributes: [
+      'id',
+      'correo',
+      'comentarios',
+      'fecha_solicitud',
+      'id_user',
+      'estado',
+    ],
+  })
+}
+
 async function updateRequest(id, fieldsToUpdate) {
   try {
     const maintenance = await db.maintenance.findById(id)
@@ -87,5 +103,6 @@ async function updateRequest(id, fieldsToUpdate) {
 module.exports = {
   create,
   findMaintenance,
+  findMaintenanceByUserId,
   updateRequest,
 }
