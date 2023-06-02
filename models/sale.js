@@ -1,47 +1,40 @@
-const Sequelize = require("sequelize-oracle");
+const Sequelize = require('sequelize-oracle')
 
 module.exports = (sequelize) => {
   const Sale = sequelize.define(
-    "sale",
+    'sale',
     {
-      id: {
+      id_venta: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true,
       },
-      fecha: {
-        type: Sequelize.DATE,
-        required: true,
-        allowNull: false,
-      },
-      total: {
-        type: Sequelize.INTEGER,
-        required: true,
-        allowNull: false,
-      },
-      estado: {
+      estado_transaccion: {
         type: Sequelize.STRING,
         required: true,
         allowNull: false,
       },
-      id_cliente: {
+      monto: {
         type: Sequelize.INTEGER,
         required: true,
         allowNull: false,
       },
-      id_book: {
-        type: Sequelize.INTEGER,
+      id_sesion: {
+        type: Sequelize.STRING,
         required: true,
         allowNull: false,
-      }
+      },
+      fecha_transaccion: {
+        type: Sequelize.DATE,
+        required: true,
+        allowNull: false,
+      },
     },
     {
-      tableName: "sale",
+      tableName: 'sale',
       timestamps: false,
     }
-  );
+  )
 
-  
-
-  return Sale;
-};
+  return Sale
+}
