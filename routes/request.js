@@ -3,6 +3,7 @@ const router = Router()
 const {
   _create,
   _findMaintenance,
+  _findMaintenanceByUserId,
   _updateRequest,
 } = require('../controllers/request')
 
@@ -26,6 +27,24 @@ router.post('/', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const request = await _findMaintenance()
+    return res.status(200).json({
+      status: 'success',
+      message: 'Solicitud encontrada',
+      data: request,
+    })
+  } catch (error) {
+    return res.status(400).json({
+      status: 'error',
+      message: error.message,
+    })
+  }
+})
+
+// GET maintenance by user id
+router.get('/:id', async (req, res) => {
+  try {
+    const id = req.params.id
+    const request = await _findMaintenanceByUserId(id)
     return res.status(200).json({
       status: 'success',
       message: 'Solicitud encontrada',
