@@ -15,6 +15,11 @@ async function createBookSale(bookSaleData) {
   return await db.saleBook.create(bookSaleData)
 }
 
+async function getAllBooks() {
+  // Obtener todos los libros de venta
+  return await db.saleBook.findAll()
+}
+
 async function getBooksBySaleId(saleId) {
   // Obtener los libros asociados a una venta por su ID
   if (!saleId) throw new Error('No se proporcionó el ID de venta')
@@ -25,7 +30,19 @@ async function getBooksBySaleId(saleId) {
   })
 }
 
+async function getBooksByUserId(userId) {
+  // Obtener los libros asociados a un usuario por su ID
+  if (!userId) throw new Error('No se proporcionó el ID de usuario')
+  return await db.saleBook.findAll({
+    where: {
+      cliente_id: userId,
+    },
+  })
+}
+
 module.exports = {
   createBookSale,
   getBooksBySaleId,
+  getBooksByUserId,
+  getAllBooks,
 }
