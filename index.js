@@ -27,6 +27,8 @@ app.use('/api/users', require('./routes/users'))
 app.use('/api/books', require('./routes/books'))
 app.use('/api/requests', require('./routes/request'))
 app.use('/api/emailConfirmation', require('./routes/emailConfirmation'))
+app.use('/api/sale', require('./routes/sales'))
+app.use('/api/saleBooks', require('./routes/saleBooks'))
 app.use('/', transbankRoutes)
 app.use('/', stock)
 
