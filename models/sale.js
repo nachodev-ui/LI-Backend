@@ -9,7 +9,22 @@ module.exports = (sequelize) => {
         autoIncrement: true,
         primaryKey: true,
       },
+      id_cliente: {
+        type: Sequelize.INTEGER,
+        required: true,
+        allowNull: false,
+      },
+      id_envio: {
+        type: Sequelize.INTEGER,
+        required: true,
+        allowNull: false,
+      },
       estado_transaccion: {
+        type: Sequelize.STRING,
+        required: true,
+        allowNull: false,
+      },
+      estado_envio: {
         type: Sequelize.STRING,
         required: true,
         allowNull: false,
