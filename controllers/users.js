@@ -1,5 +1,5 @@
 const { create } = require('../services/users/create')
-const { updateUser } = require('../services/users/update')
+const { updateUser, updateUserImage } = require('../services/users/update')
 const {
   findByUsername,
   findByEmail,
@@ -19,6 +19,10 @@ async function _updateUser(id) {
 async function _deleteUser(id) {
   return await deleteUser(id)
 }
+
+// async function _updateUserImage(id, imagen) {
+//   return await updateUserImage(id, imagen)
+// }
 
 async function _userId(id) {
   return await userId(id)
