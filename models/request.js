@@ -9,6 +9,11 @@ module.exports = (sequelize) => {
         autoIncrement: true,
         primaryKey: true,
       },
+      id_tecnico: {
+        type: Sequelize.INTEGER,
+        required: true,
+        allowNull: true,
+      },
       fecha_solicitud: {
         type: Sequelize.DATE,
         allowNull: false,
@@ -21,11 +26,6 @@ module.exports = (sequelize) => {
       },
       estado: {
         type: Sequelize.STRING,
-        required: true,
-        allowNull: false,
-      },
-      id_user: {
-        type: Sequelize.INTEGER,
         required: true,
         allowNull: false,
       },
