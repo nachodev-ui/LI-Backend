@@ -1,6 +1,7 @@
 const moment = require('moment')
 const db = require('../../models')
 const nodemailer = require('nodemailer')
+const { formatDate } = require('../../utils/dateUtils')
 const dotenv = require('dotenv').config()
 
 async function create(maintenance) {
@@ -9,7 +10,7 @@ async function create(maintenance) {
   if (!maintenance.comentarios)
     throw new Error('Los comentarios son obligatorios')
   if (!maintenance.estado) throw new Error('El estado es requerido')
-  if (!maintenance.id_user)
+  if (!maintenance.user_id)
     throw new Error('Tiene que existir un usuario logueado')
   if (!maintenance.correo) throw new Error('El correo del usuario es requerido')
 
@@ -23,8 +24,9 @@ async function create(maintenance) {
     fecha_solicitud: fechaSolicitud,
     comentarios: maintenance.comentarios,
     estado: maintenance.estado,
-    id_user: maintenance.id_user,
     correo: maintenance.correo,
+    user_id: maintenance.user_id,
+    id_tecnico: maintenance.id_tecnico,
   })
 
   // Envío del correo electrónico
@@ -62,7 +64,7 @@ async function findMaintenance() {
       'correo',
       'comentarios',
       'fecha_solicitud',
-      'id_user',
+      'user_id',
       'estado',
     ],
   })
@@ -71,14 +73,14 @@ async function findMaintenance() {
 async function findMaintenanceByUserId(id) {
   return await db.maintenance.findAll({
     where: {
-      id_user: id,
+      user_id: id,
     },
     attributes: [
       'id',
       'correo',
       'comentarios',
       'fecha_solicitud',
-      'id_user',
+      'user_id',
       'estado',
     ],
   })
@@ -90,6 +92,42 @@ async function updateRequest(id, fieldsToUpdate) {
 
     if (!maintenance) {
       throw new Error('Mantencion Inexistente')
+    }
+
+    if (
+      maintenance.estado === 'En proceso' ||
+      maintenance.estado === 'Finalizada'
+    ) {
+      // nodemailer para enviar correo al usuario
+      const transporter = nodemailer.createTransport({
+        service: 'hotmail',
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS,
+        },
+      })
+
+      // Formatear la fecha de solicitud
+      const fechaSolicitud = moment(
+        maintenance.fecha_solicitud,
+        'DD/MM/YYYY HH:mm'
+      ).format('DD-MM-YYYY HH:mm')
+
+      const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: maintenance.correo, // Correo del usuario
+        subject: 'Actualización de Solicitud de Mantención',
+        html: `
+            <h2>Solicitud de Mantención Actualizada</h2>
+            <p>Fecha de Solicitud: ${fechaSolicitud}</p>
+            <p>Estado: ${maintenance.estado}</p>
+            <div>
+              <img src="https://i.ibb.co/CK57WJS/pc-maniac-1.png" alt="Banner" width="100%" style="display: block;">
+            </div>
+          `,
+      }
+
+      await transporter.sendMail(mailOptions)
     }
 
     await maintenance.update(fieldsToUpdate)
