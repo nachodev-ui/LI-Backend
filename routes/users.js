@@ -1,6 +1,6 @@
 const { Router } = require('express')
 const router = Router()
-const { _findAll, _deleteUser, _userId } = require('../controllers/users')
+const { _findAll, _userId, _deleteUser } = require('../controllers/users')
 const { deleteUser } = require('../services/users/find')
 const multer = require('multer')
 const upload = multer({ dest: 'uploads/' })
@@ -75,8 +75,6 @@ router.patch('/update/:id', upload.single('imagen'), async (req, res) => {
     return res.status(500).json(e.message)
   }
 })
-
-// router.patch('/update/image/:id', upload.single('imagen'), async (req, res) => {
 //   try {
 //     const { id } = req.params
 //     const user = await _userId(id)
@@ -101,6 +99,28 @@ router.patch('/update/:id', upload.single('imagen'), async (req, res) => {
 // })
 
 // DELETE Oracle user; localhost:3000/api/users/:id
-router.delete('/:id', deleteUser)
+
+router.delete('/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+    const user = await _userId(id)
+
+    if (!user) {
+      return res.status(404).json({
+        status: 'error',
+        message: `No se encontró el usuario con id ${id}`,
+      })
+    }
+
+    await _deleteUser(id)
+
+    return res.status(200).json({
+      status: 'success',
+      message: `Usuario con id ${id} eliminado correctamente`,
+    })
+  } catch (e) {
+    return res.status(500).json(e.message)
+  }
+})
 
 module.exports = router
