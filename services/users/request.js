@@ -1,7 +1,6 @@
 const moment = require('moment')
 const db = require('../../models')
 const nodemailer = require('nodemailer')
-const { formatDate } = require('../../utils/dateUtils')
 const dotenv = require('dotenv').config()
 
 async function create(maintenance) {
