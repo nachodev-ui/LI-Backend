@@ -1,24 +1,12 @@
 const db = require('../../models')
 
 async function deleteUser(id) {
-  try {
-    const user = await db.user.findOne({
-      where: {
-        id,
-      },
-    })
-
-    if (!user) {
-      throw new Error(`No se encontró el usuario con id ${id}`)
-    }
-
-    await user.destroy()
-
-    return `Usuario con id ${id} eliminado correctamente`
-  } catch (error) {
-    console.error(error)
-    throw new Error('Error al eliminar usuario')
-  }
+  if (!id) throw new Error('Id de usuario no proporcionado')
+  return await db.user.destroy({
+    where: {
+      id,
+    },
+  })
 }
 
 async function userId(id) {
